@@ -78,8 +78,10 @@ export default () => {
   }, [correct, incorrect]);
 
   useEffect(() => {
-    let saved = localStorage.getItem("allowedKana");
-    if (saved) setAllowed(saved.split(","));
+    let savedKana = localStorage.getItem("allowedKana");
+    let savedToggle = localStorage.getItem("toggledKana");
+    if (savedKana) setAllowed(savedKana.split(","));
+    if (savedToggle) setToggled(JSON.parse(savedToggle));
     setLoadedFromStorage(true);
   }, []);
 
@@ -87,6 +89,11 @@ export default () => {
     if (!loadedFromStorage) return;
     localStorage.setItem("allowedKana", allowed.join());
   }, [allowed, loadedFromStorage]);
+
+  useEffect(() => {
+    if (!loadedFromStorage) return;
+    localStorage.setItem("toggledKana", JSON.stringify(toggled));
+  }, [toggled, loadedFromStorage]);
 
   useEffect(() => {
     console.log(kana);
@@ -262,8 +269,15 @@ export default () => {
                         return ensureUnique(newAllowed);
                       });
                     }}
+                    style={{ cursor: "pointer" }}
                   >
-                    <button type="button">{type[0].toUpperCase()}</button>
+                    <button
+                      type="button"
+                      className={styles.typeToggler}
+                      data-toggled={toggled[type] ?? false}
+                    >
+                      {type[0].toUpperCase()}
+                    </button>
                   </p>
                   {k.map((kana, i) => {
                     return (
@@ -271,9 +285,15 @@ export default () => {
                         <label>
                           {kana}{" "}
                           <input
+                            onChange={(ev) => {
+                              if (ev.target.checked)
+                                setAllowed((c) => [...c, kana]);
+                              else
+                                setAllowed((c) => c.filter((k) => k !== kana));
+                            }}
                             className={type}
                             type="checkbox"
-                            defaultChecked={allowed?.includes(kana)}
+                            checked={allowed?.includes(kana)}
                           />
                         </label>
                       </p>

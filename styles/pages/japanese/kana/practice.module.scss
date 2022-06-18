@@ -16,6 +16,20 @@
   }
 }
 
+.typeToggler {
+  background-color: #00001f;
+  color: white;
+  &:hover,
+  &:active {
+    background-color: #00001f;
+    color: white;
+  }
+  &[data-toggled="true"] {
+    background-color: grey;
+    color: black;
+  }
+}
+
 .kanaSelectionOuter {
   // display: none;
   position: fixed;
