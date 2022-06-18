@@ -241,32 +241,29 @@ export default () => {
             {Object.entries(kanaTypes).map(([type, k]) => {
               return (
                 <div key={type}>
-                  <p>
-                    <button
-                      onClick={() => {
-                        let newState = !toggled[type];
-                        setToggled({ ...toggled, [type]: newState });
-                        setAllowed((c) => {
-                          let newAllowed;
-                          if (newState)
-                            newAllowed = [
-                              ...c,
-                              ...kanaList
-                                .filter((kana) => kana[2] === type)
-                                .map((kana) => kana[0]),
-                            ];
-                          else
-                            newAllowed = c.filter(
-                              (kana) => kanaTypeLookup[kana] !== type
-                            );
+                  <p
+                    onClick={() => {
+                      let newState = !toggled[type];
+                      setToggled((c) => ({ ...c, [type]: newState }));
+                      setAllowed((c) => {
+                        let newAllowed;
+                        if (newState)
+                          newAllowed = [
+                            ...c,
+                            ...kanaList
+                              .filter((kana) => kana[2] === type)
+                              .map((kana) => kana[0]),
+                          ];
+                        else
+                          newAllowed = c.filter(
+                            (k) => kanaTypeLookup[k] !== type
+                          );
 
-                          return ensureUnique(newAllowed);
-                        });
-                      }}
-                      type="button"
-                    >
-                      {type[0].toUpperCase()}
-                    </button>
+                        return ensureUnique(newAllowed);
+                      });
+                    }}
+                  >
+                    <button type="button">{type[0].toUpperCase()}</button>
                   </p>
                   {k.map((kana, i) => {
                     return (
