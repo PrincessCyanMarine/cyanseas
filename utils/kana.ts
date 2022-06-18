@@ -61,7 +61,7 @@ export const kanaList: Kana[] = [
   ["ひ", ["hi"], "hiragana"],
   ["ほ", ["ho"], "hiragana"],
   ["へ", ["he"], "hiragana"],
-  ["ふ", ["hu", "fu"], "hiragana"],
+  ["ふ", ["fu", "hu"], "hiragana"],
   ["ま", ["ma"], "hiragana"],
   ["み", ["mi"], "hiragana"],
   ["も", ["mo"], "hiragana"],

@@ -105,8 +105,8 @@ export default () => {
     let element: any = document.getElementById(id);
     if (
       pronounciationMode
-        ? kana[0] === element.value
-        : kana[1].includes(element.value)
+        ? kana[0] === element.value.toLowerCase()
+        : kana[1].includes(element.value.toLowerCase())
     ) {
       next();
       setCorrect((c) => c + 1);
