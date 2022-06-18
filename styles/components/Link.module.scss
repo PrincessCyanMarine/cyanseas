@@ -1,0 +1,46 @@
+$gradient: var(--gradient);
+
+.Link {
+  cursor: pointer;
+
+  position: relative;
+  background: $gradient;
+  background-clip: text;
+  transition: color 0.5s ease-out;
+  padding: 0.5em 0;
+
+  small {
+    transition: opacity 0.5s ease;
+    font-size: 0.7em;
+    color: transparent;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    width: 100%;
+    top: -0.4em;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background: $gradient;
+    background-clip: text;
+    opacity: 0;
+  }
+
+  span {
+    background: $gradient;
+    background-repeat-y: no-repeat;
+    background-size: calc(2em + 100%) 0.1em;
+    background-position: -1em 100%;
+    // transition: background-size 0.5s ease 0.2s;
+  }
+
+  &:hover {
+    color: transparent;
+    small {
+      opacity: 1;
+    }
+    // a {
+    //   background-size: 0px 0.1em;
+    // }
+  }
+}

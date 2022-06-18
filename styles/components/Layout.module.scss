@@ -1,0 +1,39 @@
+.topbar_outer {
+  background-color: #06061b;
+  height: 3rem;
+  position: sticky;
+  .topbar_inner {
+    position: relative;
+    width: inherit;
+    height: inherit;
+    .home {
+      position: absolute;
+      left: 0.5em;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .rightside {
+      position: absolute;
+      right: 0.5em;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: row-reverse;
+      column-gap: 0.5em;
+    }
+  }
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  main {
+    max-width: 90%;
+  }
+}

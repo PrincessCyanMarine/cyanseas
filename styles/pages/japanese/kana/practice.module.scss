@@ -1,0 +1,66 @@
+.kana {
+  color: antiquewhite;
+  background: none;
+  font-size: 10em;
+  position: relative;
+  small {
+    font-size: 0.15em;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    width: 100%;
+    bottom: -10px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.kanaSelectionOuter {
+  // display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 100;
+  font-size: 1.5rem;
+  .kanaSelectionInner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+    height: 90%;
+    background-color: #16162b;
+    border-radius: 100px;
+    .innerInner {
+      overflow: auto;
+      width: 70%;
+      height: 90%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(1.2rem, 1fr));
+    }
+    .x {
+      font-family: monospace;
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: antiquewhite;
+      cursor: pointer;
+      background-color: red;
+      border-radius: 100%;
+      width: 1.7em;
+      height: 1.7em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
