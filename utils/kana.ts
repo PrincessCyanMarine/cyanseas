@@ -23,7 +23,7 @@ export const useKana = (allowed: string[] = [], newKana = false) => {
     let nkana: Kana;
     do {
       nkana = getRandomFromArray(filteredList);
-    } while (kana && allowed.length && nkana[0] === kana[0]);
+    } while (kana && allowed.length > 1 && nkana[0] === kana[0]);
     if (filteredList.length > 0) setKana(nkana);
     else setKana(undefined);
   }, [filteredList, newKana]);
