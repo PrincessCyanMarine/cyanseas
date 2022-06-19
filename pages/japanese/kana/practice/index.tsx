@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import { ChangeEvent, KeyboardEvent, useEffect, useId, useState } from "react";
+import Popup from "../../../../components/Popup";
 import styles from "../../../../styles/pages/japanese/kana/practice.module.scss";
 import { kanaList, kanaTypeLookup, useKana } from "../../../../utils/kana";
 import { ensureUnique, getRandomFromArray } from "../../../../utils/utils";
@@ -12,6 +13,9 @@ export default () => {
   const [customizeKana, setCustomizeKana] = useState(false);
   const [newKana, setNewKana] = useState(false);
   const [autoTest, setAutoTest] = useState(true);
+  const [timed, setTimed] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [showAnswerPopup, setShowAnswerPopup] = useState(false);
   const [allowed, setAllowed] = useState<string[]>([
     "あ",
     "い",
@@ -74,14 +78,14 @@ export default () => {
   });
 
   useEffect(() => {
-    console.log(correct, incorrect);
-  }, [correct, incorrect]);
-
-  useEffect(() => {
     let savedKana = localStorage.getItem("allowedKana");
     let savedToggle = localStorage.getItem("toggledKana");
+    let savedReading = localStorage.getItem("showAsReading");
+    let savedAutoTest = localStorage.getItem("autoTest");
     if (savedKana) setAllowed(savedKana.split(","));
     if (savedToggle) setToggled(JSON.parse(savedToggle));
+    if (savedReading) setPronounciationMode(savedReading === "true");
+    if (savedAutoTest) setAutoTest(savedAutoTest === "true");
     setLoadedFromStorage(true);
   }, []);
 
@@ -96,8 +100,17 @@ export default () => {
   }, [toggled, loadedFromStorage]);
 
   useEffect(() => {
-    console.log(kana);
-  }, [kana]);
+    if (!loadedFromStorage) return;
+    localStorage.setItem(
+      "showAsReading",
+      pronounciationMode ? "true" : "false"
+    );
+  }, [pronounciationMode, loadedFromStorage]);
+
+  useEffect(() => {
+    if (!loadedFromStorage) return;
+    localStorage.setItem("autoTest", autoTest ? "true" : "false");
+  }, [autoTest, loadedFromStorage]);
 
   const kanaTypes: { [type: string]: string[] } = {};
 
@@ -123,12 +136,13 @@ export default () => {
   }
 
   function skip() {
-    next();
     setIncorrect((i) => i + 1);
     if (!kana) return;
-    if (pronounciationMode)
-      alert(`The kana read as ${kana[1][0]} is ${kana[0]}`);
-    else alert(`The kana ${kana[0]} is read as\n${kana[1].join(", ")}`);
+    setShowAnswerPopup(true);
+    document.getElementById(id)?.blur();
+    // if (pronounciationMode)
+    //   alert(`The kana read as ${kana[1][0]} is ${kana[0]}`);
+    // else alert(`The kana ${kana[0]} is read as\n${kana[1].join(", ")}`);
   }
 
   function next() {
@@ -138,17 +152,30 @@ export default () => {
     element.value = "";
   }
 
+  function closePopup() {
+    setShowAnswerPopup(false);
+    next();
+    document.getElementById(id)?.focus();
+  }
+
   function keydown(ev: globalThis.KeyboardEvent) {
-    if (ev.key === "Enter") {
-      ev.preventDefault();
-      if (!testCorrect()) skip();
+    switch (ev.key) {
+      case "Enter":
+        ev.preventDefault();
+        if (showAnswerPopup) closePopup();
+        else if (!testCorrect()) skip();
+        break;
+      case "Escape":
+        if (showAnswerPopup) closePopup();
+        if (customizeKana) setCustomizeKana(false);
+        break;
     }
   }
 
   useEffect(() => {
-    document.getElementById(id)?.addEventListener("keydown", keydown);
+    document.addEventListener("keydown", keydown);
     return () => {
-      document.getElementById(id)?.removeEventListener("keydown", keydown);
+      document.removeEventListener("keydown", keydown);
     };
   });
 
@@ -200,7 +227,7 @@ export default () => {
             }}
             defaultChecked={autoTest}
           />
-          <span>Test if correct automatically</span>
+          <span>Automatically test answer</span>
         </label>
       </p>
 
@@ -305,6 +332,26 @@ export default () => {
           </form>
         </div>
       </div>
+
+      {showAnswerPopup && kana && (
+        <Popup
+          close={() => {
+            closePopup();
+          }}
+          className={styles.answerPopup}
+        >
+          <div className={styles.answerInner}>
+            <div>
+              <div style={{ fontSize: "0.5em" }}>Kana</div>
+              <a>{kana[0]}</a>
+            </div>
+            <div>
+              <div style={{ fontSize: "0.5em" }}>Reading</div>
+              <a>{kana[1][0]}</a>
+            </div>
+          </div>
+        </Popup>
+      )}
     </div>
   );
 };

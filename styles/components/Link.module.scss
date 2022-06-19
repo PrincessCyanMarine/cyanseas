@@ -6,11 +6,9 @@ $gradient: var(--gradient);
   position: relative;
   background: $gradient;
   background-clip: text;
-  transition: color 0.5s ease-out;
   padding: 0.5em 0;
 
   small {
-    transition: opacity 0.5s ease;
     font-size: 0.7em;
     color: transparent;
     position: absolute;
@@ -24,6 +22,9 @@ $gradient: var(--gradient);
     background: $gradient;
     background-clip: text;
     opacity: 0;
+    @media (hover: hover) {
+      transition: opacity 0.5s ease;
+    }
   }
 
   span {
@@ -42,5 +43,9 @@ $gradient: var(--gradient);
     // a {
     //   background-size: 0px 0.1em;
     // }
+  }
+
+  @media (hover: hover) {
+    transition: color 0.5s ease-out;
   }
 }
