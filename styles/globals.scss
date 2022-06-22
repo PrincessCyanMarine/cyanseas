@@ -85,6 +85,7 @@
 $gradient: var(--gradient);
 :root {
   --gradient: linear-gradient(to right, purple, cyan, purple);
+  color-scheme: dark;
 }
 
 sup {

@@ -44,11 +44,18 @@ const Home: NextPage = () => {
           module
         </p>
         <p>
-          <Link href="">
+          <Link href="https://github.com/PrincessCyanMarine/cyanseas">
             <big>This website</big>
             <small>external</small>
           </Link>{" "}
           - Made using the nextjs framework
+        </p>
+        <p>
+          <Link href="https://old.cyanmarine.net">
+            <big>My old website</big>
+            <small>external</small>
+          </Link>{" "}
+          - Made with a mix of nextjs and stock HTML, JS and CSS
         </p>
       </div>
     </div>

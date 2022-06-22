@@ -1,6 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-}
 
-module.exports = nextConfig
+  async redirects() {
+    return [
+      {
+        source: "/japanese/kana/practice.html",
+        destination: "/japanese/kana/practice",
+        permanent: true,
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
