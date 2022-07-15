@@ -4,6 +4,7 @@ import Popup from "../../../../components/Popup";
 import styles from "../../../../styles/pages/japanese/kana/practice.module.scss";
 import { kanaList, kanaTypeLookup, useKana } from "../../../../utils/kana";
 import { ensureUnique, getRandomFromArray } from "../../../../utils/utils";
+import $ from "jquery";
 
 export default () => {
   const id = useId();
@@ -14,56 +15,10 @@ export default () => {
   const [newKana, setNewKana] = useState(false);
   const [autoTest, setAutoTest] = useState(true);
   const [timed, setTimed] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [lost, setLost] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(5);
   const [showAnswerPopup, setShowAnswerPopup] = useState(false);
-  const [allowed, setAllowed] = useState<string[]>([
-    "あ",
-    "い",
-    "お",
-    "え",
-    "う",
-    "か",
-    "き",
-    "こ",
-    "け",
-    "く",
-    "さ",
-    "し",
-    "そ",
-    "せ",
-    "す",
-    "た",
-    "ち",
-    "と",
-    "て",
-    "つ",
-    "な",
-    "に",
-    "の",
-    "ね",
-    "ぬ",
-    "は",
-    "ひ",
-    "ほ",
-    "へ",
-    "ふ",
-    "ま",
-    "み",
-    "も",
-    "め",
-    "む",
-    "や",
-    "ゆ",
-    "よ",
-    "ら",
-    "り",
-    "ろ",
-    "れ",
-    "る",
-    "わ",
-    "を",
-    "ん",
-  ]);
+  const [allowed, setAllowed] = useState<string[]>(defaultAllowed);
   const kana = useKana(allowed, newKana);
 
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
@@ -112,6 +67,27 @@ export default () => {
     localStorage.setItem("autoTest", autoTest ? "true" : "false");
   }, [autoTest, loadedFromStorage]);
 
+  useEffect(() => {
+    let timer: NodeJS.Timer | undefined;
+    if (timed && !lost) {
+      setTimeLeft(5);
+      timer = setInterval(() => {
+        $(`.${styles.timer}`).get(0)?.scrollTo({ top: 0, behavior: "auto" });
+        setTimeLeft((time) => time - 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [timed, lost]);
+
+  useEffect(() => {
+    if (timeLeft < 1) {
+      setLost(true);
+    }
+  }, [timeLeft]);
+
   const kanaTypes: { [type: string]: string[] } = {};
 
   kanaList.forEach((kana) => {
@@ -130,6 +106,7 @@ export default () => {
     ) {
       next();
       setCorrect((c) => c + 1);
+      setTimeLeft((time) => time + 3);
       return true;
     }
     return false;
@@ -137,6 +114,7 @@ export default () => {
 
   function skip() {
     setIncorrect((i) => i + 1);
+    setTimeLeft((time) => time - 3);
     if (!kana) return;
     setShowAnswerPopup(true);
     document.getElementById(id)?.blur();
@@ -161,6 +139,7 @@ export default () => {
   function keydown(ev: globalThis.KeyboardEvent) {
     switch (ev.key) {
       case "Enter":
+      case " ":
         ev.preventDefault();
         if (showAnswerPopup) closePopup();
         else if (!testCorrect()) skip();
@@ -181,6 +160,7 @@ export default () => {
 
   return (
     <div>
+      {timed && <span className={styles.timer}>{timeLeft}</span>}
       <div className={styles.kana}>
         {kana && (pronounciationMode ? kana[1][0] : kana[0])}
         {pronounciationMode && kana && (
@@ -241,6 +221,21 @@ export default () => {
             defaultChecked={pronounciationMode}
           />
           <span>Show pronounciation</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input
+            type="checkbox"
+            onChange={(ev) => {
+              setTimed(ev.target.checked);
+              if (ev.target.checked) {
+                $("input")[0].focus({ preventScroll: true });
+              }
+            }}
+            defaultChecked={timed}
+          />
+          <span>Timed</span>
         </label>
       </p>
 
@@ -355,3 +350,52 @@ export default () => {
     </div>
   );
 };
+
+const defaultAllowed = [
+  "あ",
+  "い",
+  "お",
+  "え",
+  "う",
+  "か",
+  "き",
+  "こ",
+  "け",
+  "く",
+  "さ",
+  "し",
+  "そ",
+  "せ",
+  "す",
+  "た",
+  "ち",
+  "と",
+  "て",
+  "つ",
+  "な",
+  "に",
+  "の",
+  "ね",
+  "ぬ",
+  "は",
+  "ひ",
+  "ほ",
+  "へ",
+  "ふ",
+  "ま",
+  "み",
+  "も",
+  "め",
+  "む",
+  "や",
+  "ゆ",
+  "よ",
+  "ら",
+  "り",
+  "ろ",
+  "れ",
+  "る",
+  "わ",
+  "を",
+  "ん",
+];
