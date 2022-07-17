@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.27.2",
+    "canvas": "^2.9.3",
     "formik": "^2.2.9",
     "jquery": "^3.6.0",
     "next": "12.1.6",
