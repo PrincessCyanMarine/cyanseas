@@ -1,7 +1,10 @@
+import { Alert, IconButton, Snackbar } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { createXpBar } from "../../../utils/card";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import Snack from "../../../components/Snack";
 
 // const serverURL = "https://triviumcomics.herokuapp.com/";
 const serverURL = "https://triviumcomicsbotstypescript.herokuapp.com/";
@@ -19,6 +22,36 @@ export default () => {
   const [style, setStyle] = useState(defaultStyle);
   const [initialStyle, setInitialStyle] = useState(defaultStyle);
   const [xpBar, setXpBar] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState(false);
+
+  const Success = () => {
+    return (
+      <Snack
+        message="Successfully updated card"
+        handleClose={(ev, reason) => {
+          if (reason != "clickaway") setSuccess(false);
+        }}
+        open={success}
+        autoHideDuration={2000}
+        key="Success"
+      />
+    );
+  };
+
+  const Fail = () => {
+    return (
+      <Snack
+        message="Failed to updated card"
+        handleClose={(ev, reason) => {
+          if (reason != "clickaway") setFail(false);
+        }}
+        open={fail}
+        autoHideDuration={2000}
+        key="Fail"
+      />
+    );
+  };
 
   function authRedirect() {
     let url = `https://discord.com/api/oauth2/authorize?client_id=743606862578057277&redirect_uri=${location.origin}${location.pathname}&response_type=token&scope=identify`;
@@ -144,16 +177,18 @@ export default () => {
                 { params: { tokenType, accessToken } }
               )
               .then(() => {
-                alert("Successfully updated card");
+                setSuccess(true);
               })
               .catch(() => {
-                alert("Failled to updated card");
+                setFail(true);
               });
           }}
         >
           Save
         </button>
       </p>
+      <Success />
+      <Fail />
     </div>
   );
 };
