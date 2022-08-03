@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { createXpBar } from "../../../utils/card";
 
+// const serverURL = "https://triviumcomics.herokuapp.com/";
+const serverURL = "https://triviumcomicsbotstypescript.herokuapp.com/";
+
 const defaultStyle = {
   color: "#000000",
   color2: "#000000",
@@ -43,7 +46,7 @@ export default () => {
   useEffect(() => {
     if (!accessToken || !tokenType) return;
     axios
-      .get("https://triviumcomicsbotstypescript.herokuapp.com/card/getInfo", {
+      .get(serverURL + "card/info", {
         params: { tokenType, accessToken },
       })
       .then(({ data }) => {
@@ -135,7 +138,7 @@ export default () => {
         <button
           onClick={() => {
             axios.post(
-              "https://triviumcomicsbotstypescript.herokuapp.com/card/getInfo",
+              serverURL + "card/info",
               { style },
               { params: { tokenType, accessToken } }
             );
