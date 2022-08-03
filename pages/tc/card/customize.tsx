@@ -137,11 +137,18 @@ export default () => {
 
         <button
           onClick={() => {
-            axios.post(
-              serverURL + "card/info",
-              { style },
-              { params: { tokenType, accessToken } }
-            );
+            axios
+              .post(
+                serverURL + "card/info",
+                { style },
+                { params: { tokenType, accessToken } }
+              )
+              .then(() => {
+                alert("Successfully updated card");
+              })
+              .catch(() => {
+                alert("Failled to updated card");
+              });
           }}
         >
           Save
