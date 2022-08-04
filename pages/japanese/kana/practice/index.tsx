@@ -168,6 +168,10 @@ export default () => {
   return (
     <div>
       <Head>
+        <title>Cyan's kana practice</title>
+        <meta property="og:site_name" content="Cyan's kana practice" />
+        <meta property="og:title" content="Cyan's kana practice" />
+
         <meta
           name="description"
           content="A simple website made by CyanMarine to help her to practice japanese kana (Better on mobile)"

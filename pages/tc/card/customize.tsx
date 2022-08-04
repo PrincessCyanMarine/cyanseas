@@ -102,6 +102,7 @@ export default () => {
     <div>
       <Head>
         <title>Card customizer</title>
+        <meta property="og:site_name" content="Card customizer" />
         <meta property="og:title" content="Card customizer" />
         <link rel="icon" type="image/x-icon" href="/assets/icons/tc/d20.ico" />
         <meta property="og:image" content="/images/tc/d20.png" />

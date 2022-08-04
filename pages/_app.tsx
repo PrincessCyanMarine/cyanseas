@@ -43,6 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
         <meta property="og:title" content="The Cyan seas" />
+        <meta property="og:site_name" content="The Cyan seas" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="http://cyanmarine.net" />
         <meta property="og:image" content="/images/thumb.png" />
