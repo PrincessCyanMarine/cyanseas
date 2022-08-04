@@ -105,7 +105,10 @@ export default () => {
         <meta property="og:site_name" content="Card customizer" />
         <meta property="og:title" content="Card customizer" />
         <link rel="icon" type="image/x-icon" href="/assets/icons/tc/d20.ico" />
-        <meta property="og:image" content="/assets/images/tc/d20.png" />
+        <meta
+          property="og:image"
+          content="https://www.cyanmarine.net/assets/images/tc/d20.png"
+        />
         <meta name="robots" content="noindex,nofollow" />
         <meta
           name="description"
