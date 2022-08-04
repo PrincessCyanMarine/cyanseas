@@ -5,6 +5,8 @@ import styles from "../../../../styles/pages/japanese/kana/practice.module.scss"
 import { kanaList, kanaTypeLookup, useKana } from "../../../../utils/kana";
 import { ensureUnique, getRandomFromArray } from "../../../../utils/utils";
 import $ from "jquery";
+import Snack from "../../../../components/Snack";
+import Head from "next/head";
 
 export default () => {
   const id = useId();
@@ -68,6 +70,12 @@ export default () => {
   }, [autoTest, loadedFromStorage]);
 
   useEffect(() => {
+    if (!lost) return;
+    setTimed(false);
+    skip();
+  }, [lost]);
+
+  useEffect(() => {
     let timer: NodeJS.Timer | undefined;
     if (timed && !lost) {
       setTimeLeft(5);
@@ -106,7 +114,7 @@ export default () => {
     ) {
       next();
       setCorrect((c) => c + 1);
-      setTimeLeft((time) => time + 3);
+      if (timed) setTimeLeft(3);
       return true;
     }
     return false;
@@ -114,7 +122,6 @@ export default () => {
 
   function skip() {
     setIncorrect((i) => i + 1);
-    setTimeLeft((time) => time - 3);
     if (!kana) return;
     setShowAnswerPopup(true);
     document.getElementById(id)?.blur();
@@ -160,6 +167,17 @@ export default () => {
 
   return (
     <div>
+      <Head>
+        <meta
+          name="description"
+          content="A simple website made by CyanMarine to help her to practice japanese kana (Better on mobile)"
+        />
+        <meta
+          property="og:description"
+          content="A simple page made by CyanMarine to help her to practice japanese kana (Better on mobile)"
+        />
+      </Head>
+
       {timed && <span className={styles.timer}>{timeLeft}</span>}
       <div className={styles.kana}>
         {kana && (pronounciationMode ? kana[1][0] : kana[0])}
@@ -233,7 +251,7 @@ export default () => {
                 $("input")[0].focus({ preventScroll: true });
               }
             }}
-            defaultChecked={timed}
+            checked={timed}
           />
           <span>Timed</span>
         </label>
@@ -347,6 +365,17 @@ export default () => {
           </div>
         </Popup>
       )}
+
+      <Snack
+        handleClose={() => {
+          setLost(false);
+        }}
+        message="You lost"
+        open={lost}
+        autoHideDuration={1000}
+        closeButton
+        key="lost"
+      />
     </div>
   );
 };

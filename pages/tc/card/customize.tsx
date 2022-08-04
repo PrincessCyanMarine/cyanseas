@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { createXpBar } from "../../../utils/card";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import Snack from "../../../components/Snack";
+import Head from "next/head";
 
 // const serverURL = "https://triviumcomics.herokuapp.com/";
 const serverURL = "https://triviumcomicsbotstypescript.herokuapp.com/";
@@ -99,6 +100,22 @@ export default () => {
 
   return (
     <div>
+      <Head>
+        <title>Card customizer</title>
+        <meta property="og:title" content="Card customizer" />
+        <link rel="icon" type="image/x-icon" href="/assets/icons/tc/d20.ico" />
+        <meta property="og:image" content="/images/tc/d20.png" />
+        <meta name="robots" content="noindex,nofollow" />
+        <meta
+          name="description"
+          content="The customization page for D20 cards"
+        />
+        <meta
+          name="og:description"
+          content="The customization page for D20 cards"
+        />
+      </Head>
+
       <h1>Title</h1>
       <p>
         <input

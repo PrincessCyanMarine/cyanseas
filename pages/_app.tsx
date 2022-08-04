@@ -40,7 +40,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div>
       <Head>
         <title>The Cyan seas</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+        <meta property="og:title" content="The Cyan seas" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="http://cyanmarine.net" />
+        <meta property="og:image" content="/images/thumb.png" />
+        <meta property="og:author" content="CyanMarine" />
+        <meta name="theme-color" content="#00FFFF" />
+
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
       <Layout>

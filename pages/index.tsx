@@ -1,10 +1,22 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import Link from "../components/Link";
 import styles from "../styles/Home.module.scss";
 
 const Home: NextPage = () => {
   return (
     <div>
+      <Head>
+        <meta
+          name="description"
+          content="CyanMarine's portifolio and personal website. Explore the Cyan seas, to find what I've done"
+        />
+        <meta
+          property="og:description"
+          content="CyanMarine's portifolio and personal website. Explore the Cyan seas, to find what I've done"
+        />
+      </Head>
+
       <div>
         <h1>Howdy there</h1>
         <p>

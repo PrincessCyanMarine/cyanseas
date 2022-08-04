@@ -9,11 +9,11 @@ export default () => (
       </Link>{" "}
       - A minigame to help studying japanese kana
     </p>
-    <p>
+    {/* <p>
       <Link href="/profilepics">
         <big>Profile pics</big>
       </Link>{" "}
       - Some profile pics I often use, because I tend to lose them
-    </p>
+    </p> */}
   </div>
 );

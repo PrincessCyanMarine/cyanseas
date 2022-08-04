@@ -16,6 +16,7 @@ export default () => {
         <title>Outside update 1.3.5 - Nationalities</title>
         <meta name="description" content="French: 100% more maidenless" />
         <meta name="author" content="God" />
+        <meta name="robots" content="noindex,nofollow" />
       </Head>
 
       <div>
