@@ -47,6 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:url" content="http://cyanmarine.net" />
         <meta property="og:image" content="/images/thumb.png" />
         <meta property="og:author" content="CyanMarine" />
+        <meta property="author" content="CyanMarine" />
         <meta name="theme-color" content="#00FFFF" />
 
         <meta name="twitter:card" content="summary_large_image" />
