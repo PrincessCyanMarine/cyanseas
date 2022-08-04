@@ -46,7 +46,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:site_name" content="The Cyan seas" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="http://cyanmarine.net" />
-        <meta property="og:image" content="/images/thumb.png" />
+        <meta
+          property="og:image"
+          content="https://www.cyanmarine.net/assets/images/thumb.png"
+        />
         <meta property="og:author" content="CyanMarine" />
         <meta property="author" content="CyanMarine" />
         <meta name="theme-color" content="#00FFFF" />
