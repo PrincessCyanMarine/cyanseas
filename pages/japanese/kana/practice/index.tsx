@@ -154,7 +154,7 @@ export default () => {
         break;
       case "Escape":
         if (showAnswerPopup) closePopup();
-        if (customizeKana) setCustomizeKana(false);
+        if (customizeKana && allowed.length > 0) setCustomizeKana(false);
         break;
     }
   }
@@ -273,7 +273,7 @@ export default () => {
       >
         <div
           onClick={() => {
-            setCustomizeKana(false);
+            if (allowed.length > 0) setCustomizeKana(false);
           }}
           style={{
             position: "fixed",
@@ -289,7 +289,7 @@ export default () => {
           {allowed.length > 0 && (
             <a
               onClick={() => {
-                setCustomizeKana(false);
+                if (allowed.length > 0) setCustomizeKana(false);
               }}
               className={styles.x}
             >
