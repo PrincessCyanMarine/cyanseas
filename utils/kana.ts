@@ -12,7 +12,7 @@ type Kana = [
 // }
 
 export const useKana = (allowed: string[] = [], newKana = false) => {
-  const [filteredList, setFilteredList] = useState</* Kana[] */ any>([]);
+  const [filteredList, setFilteredList] = useState<Kana[] /* any */>([]);
   const [kana, setKana] = useState<Kana | undefined>();
 
   useEffect(() => {

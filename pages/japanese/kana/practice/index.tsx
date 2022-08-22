@@ -7,6 +7,7 @@ import { ensureUnique, getRandomFromArray } from "../../../../utils/utils";
 import $ from "jquery";
 import Snack from "../../../../components/Snack";
 import Head from "next/head";
+import Link from "../../../../components/Link";
 
 export default () => {
   const id = useId();
@@ -215,6 +216,11 @@ export default () => {
       <p>Skipped/Incorrect: {incorrect}</p>
       <br />
       <p>
+        <Link href="https://old.cyanmarine.net/japanese/kana/practice.html">
+          Old version
+        </Link>
+      </p>
+      <p>
         <button onClick={() => setCustomizeKana(true)}>
           Select allowed kana
         </button>
@@ -263,7 +269,7 @@ export default () => {
 
       <div
         className={styles.kanaSelectionOuter}
-        style={customizeKana ? {} : { display: "none" }}
+        style={customizeKana || allowed.length === 0 ? {} : { display: "none" }}
       >
         <div
           onClick={() => {
@@ -280,14 +286,16 @@ export default () => {
           }}
         />
         <div className={styles.kanaSelectionInner}>
-          <a
-            onClick={() => {
-              setCustomizeKana(false);
-            }}
-            className={styles.x}
-          >
-            x
-          </a>
+          {allowed.length > 0 && (
+            <a
+              onClick={() => {
+                setCustomizeKana(false);
+              }}
+              className={styles.x}
+            >
+              x
+            </a>
+          )}
           <form className={styles.innerInner}>
             {Object.entries(kanaTypes).map(([type, k]) => {
               return (
