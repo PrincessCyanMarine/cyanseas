@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="🅱ijifier" key="title" />
+    <link rel="stylesheet" href="/main_style.css?v=1.0">
+    <link rel="stylesheet" href="./style.css?v=1.0">
+    <title>🅱ijifier</title>
+    <script>
+        var vowel = true;
+
+        function bijify() {
+            document.getElementById("output").value =
+                document.getElementById("input")
+                .value.replace(/(\s|^)(\S)/g, (all, g1, g2) => !vowel && g2.match(/[aeiou]/i) ? all : g1 + "🅱")
+        }
+
+        function load() {
+            document.getElementById("input").addEventListener("keyup", bijify);
+            document.getElementById("input").addEventListener("keydown", bijify);
+        }
+
+        function updateVowel() {
+            vowel = document.getElementById("vowel").checked;
+            bijify();
+        }
+    </script>
+</head>
+
+<body onload="load()">
+    <div>
+        <p>Input</p>
+        <textarea placeholder="Bababooey" id="input"></textarea>
+        <p>🅱ijified</p>
+        <textarea placeholder="🅱ababooey" id="output"></textarea>
+        <p><label>Change vowels <input id="vowel" type="checkbox" checked onchange="updateVowel();"></label></p>
+    </div>
+</body>
+
+</html>
