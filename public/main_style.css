@@ -1,0 +1,92 @@
+:root {
+    --accent1: #45484e;
+    --accent2: #939598;
+    --accent3: #020026;
+    --buttons: #9ba0a9;
+    --buttons-hover: #737a88;
+    --background: #303034;
+    --text: #c0c0c0;
+    --text2: #000000;
+    --text3: #060430;
+    --navibar-bg: #1f20313d;
+    --navibar-thumb: #1f2031;
+    --search-bar: #939598;
+    --topbar-bg: #191a22;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--navibar-thumb);
+}
+
+::-webkit-scrollbar {
+    background-color: var(--navibar-bg);
+    width: 1.5vw;
+    min-width: 10px;
+    max-width: 15px;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+a {
+    /* text-decoration: underline; */
+    color: var(--text);
+}
+
+a:visited {
+    color: var(--text);
+}
+
+input[type="submit"],
+button {
+    background-color: var(--buttons);
+    border-width: 3px;
+    border-color: black;
+    color: var(--text2);
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: var(--buttons-hover);
+}
+
+input[type="submit"]:active,
+button:active {
+    background-color: var(--background);
+}
+
+#watermark {
+    bottom: 0px;
+    position: fixed;
+    right: 5px;
+}
+
+#return_button,
+#home_button {
+    top: 5px;
+    left: 5px;
+    position: fixed;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    border-width: 3px;
+    border-color: black;
+    background-color: var(--search-bar);
+    color: var(--text2);
+    resize: none;
+}
+
+.topbar {
+    overflow: hidden;
+    background-color: var(--topbar-bg);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
