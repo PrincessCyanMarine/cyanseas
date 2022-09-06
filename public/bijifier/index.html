@@ -15,7 +15,7 @@
         function bijify() {
             document.getElementById("output").value =
                 document.getElementById("input")
-                .value.replace(/(\s|^)(\S)/g, (all, g1, g2) => !vowel && g2.match(/[aeiou]/i) ? all : g1 + "🅱")
+                .value.replace(/(\s|^)(\S)/g, (all, g1, g2) => g1 + "🅱" + (!vowel && g2.match(/[aeiou]/i) ? g2 : ""))
         }
 
         function load() {
