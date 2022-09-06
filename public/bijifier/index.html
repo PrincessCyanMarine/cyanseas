@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./style.css?v=1.0">
     <title>🅱ijifier</title>
     <script>
-        var vowel = true;
+        var vowel = false;
 
         function bijify() {
             document.getElementById("output").value =
@@ -36,7 +36,7 @@
         <textarea placeholder="Bababooey" id="input"></textarea>
         <p>🅱ijified</p>
         <textarea placeholder="🅱ababooey" id="output"></textarea>
-        <p><label>Change vowels <input id="vowel" type="checkbox" checked onchange="updateVowel();"></label></p>
+        <p><label>Replace vowels <input id="vowel" type="checkbox" onchange="updateVowel();"></label></p>
     </div>
 </body>
 
