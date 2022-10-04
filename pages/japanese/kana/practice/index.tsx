@@ -8,6 +8,7 @@ import $ from "jquery";
 import Snack from "../../../../components/Snack";
 import Head from "next/head";
 import Link from "../../../../components/Link";
+import usePrint from "../../../../hooks/usePrint";
 
 export default () => {
   const id = useId();
@@ -17,12 +18,13 @@ export default () => {
   const [customizeKana, setCustomizeKana] = useState(false);
   const [newKana, setNewKana] = useState(false);
   const [autoTest, setAutoTest] = useState(true);
-  const [timed, setTimed] = useState(false);
+  const [timed, altGraph] = useState(false);
   const [lost, setLost] = useState(false);
   const [timeLeft, setTimeLeft] = useState(5);
   const [showAnswerPopup, setShowAnswerPopup] = useState(false);
   const [allowed, setAllowed] = useState<string[]>(defaultAllowed);
   const kana = useKana(allowed, newKana);
+  const [altGraphPressed, setControlPressed] = useState(false);
 
   const [loadedFromStorage, setLoadedFromStorage] = useState(false);
 
@@ -72,7 +74,7 @@ export default () => {
 
   useEffect(() => {
     if (!lost) return;
-    setTimed(false);
+    altGraph(false);
     skip();
   }, [lost]);
 
@@ -145,24 +147,53 @@ export default () => {
   }
 
   function keydown(ev: globalThis.KeyboardEvent) {
+    if (altGraphPressed) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+    console.log(ev.key);
+    if (!altGraphPressed)
+      switch (ev.key) {
+        case "Enter":
+        case " ":
+          ev.preventDefault();
+          if (showAnswerPopup) closePopup();
+          else if (!testCorrect()) skip();
+          break;
+        case "Escape":
+          if (showAnswerPopup) closePopup();
+          if (customizeKana && allowed.length > 0) setCustomizeKana(false);
+          break;
+        case "AltGraph":
+          setControlPressed(true);
+          break;
+      }
+    else
+      switch (ev.key) {
+        case "t":
+          if (altGraphPressed) altGraph(true);
+          break;
+      }
+  }
+
+  usePrint(altGraphPressed);
+
+  function keyup(ev: globalThis.KeyboardEvent) {
     switch (ev.key) {
-      case "Enter":
-      case " ":
-        ev.preventDefault();
-        if (showAnswerPopup) closePopup();
-        else if (!testCorrect()) skip();
-        break;
-      case "Escape":
-        if (showAnswerPopup) closePopup();
-        if (customizeKana && allowed.length > 0) setCustomizeKana(false);
+      case "AltGraph":
+        setControlPressed(false);
         break;
     }
   }
 
+  usePrint(altGraphPressed);
+
   useEffect(() => {
     document.addEventListener("keydown", keydown);
+    document.addEventListener("keyup", keyup);
     return () => {
       document.removeEventListener("keydown", keydown);
+      document.removeEventListener("keyup", keyup);
     };
   });
 
@@ -256,7 +287,7 @@ export default () => {
           <input
             type="checkbox"
             onChange={(ev) => {
-              setTimed(ev.target.checked);
+              altGraph(ev.target.checked);
               if (ev.target.checked) {
                 $("input")[0].focus({ preventScroll: true });
               }

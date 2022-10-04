@@ -2,8 +2,9 @@ import { createCanvas, loadImage } from "canvas";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method != "post") return res.status(405);
-  res.send(convert(req.body.image));
+  if (req.method != "POST") return res.status(405);
+  let r = await convert(req.body.image, req.body.size);
+  res.setHeader("Content-Type", "text/plain").send(r);
 };
 
 const colors = [
@@ -64,11 +65,11 @@ function _convert(ctx: CanvasRenderingContext2D) {
     ];
     let r = getClosestColor(pixel);
     values.push(r.toString(16));
-    [pixels[i], pixels[i + 1], pixels[i + 2]] = colors[r];
-    pixels[i + 3] = 255;
+    // [pixels[i], pixels[i + 1], pixels[i + 2]] = colors[r];
+    // pixels[i + 3] = 255;
   }
 
-  ctx.putImageData(imgData, 0, 0);
+  // ctx.putImageData(imgData, 0, 0);
   return values;
 }
 
@@ -81,7 +82,7 @@ function _convert(ctx: CanvasRenderingContext2D) {
       https://softwareengineering.stackexchange.com/a/159832
   */
 function getClosestColor([r1, g1, b1]: [number, number, number]) {
-  let current: number | undefined;
+  let current = Number.MAX_SAFE_INTEGER;
   let pos = -1;
   for (let i = 0; i < colors.length; i++) {
     let [r2, g2, b2] = colors[i];
@@ -89,7 +90,7 @@ function getClosestColor([r1, g1, b1]: [number, number, number]) {
       g = g1 - g2,
       b = b1 - b2;
     let difference = r * r + g * g + b * b;
-    if (!current || difference < current) {
+    if (difference < current) {
       current = difference;
       pos = i;
     }

@@ -1,0 +1,81 @@
+.square {
+  $size: 48px;
+  width: $size;
+  height: $size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.5s;
+}
+
+.keyboard {
+  display: flex;
+  .key {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: grey;
+  }
+  .guessed {
+    background-color: black;
+  }
+}
+
+.boards {
+  display: flex;
+  gap: 50px;
+  .divider {
+    background-color: grey;
+    height: inherit;
+    width: 3px;
+  }
+}
+
+.notguessed {
+  border: grey 1px solid;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.shake {
+  position: relative;
+  animation-name: shake;
+  animation-duration: 0.15s;
+  animation-iteration-count: 3;
+  animation-timing-function: linear;
+}
+
+@keyframes shake {
+  $shake: 5%;
+  25% {
+    left: $shake;
+  }
+  50% {
+    left: 0;
+  }
+  75% {
+    left: -$shake;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+.incorrect {
+  background-color: grey;
+}
+
+.correct {
+  background-color: #538d4e;
+}
+
+.contained {
+  background-color: #b59f3b;
+}
