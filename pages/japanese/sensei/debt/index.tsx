@@ -32,7 +32,6 @@ export default () => {
           content="Um site que informa o quanto Akira先生 deve para seus alunos"
         />
         <meta property="theme-color" content="#00FFFF" />
-        <meta name="twitter:card" content="summary_large_image" />
         {/* <meta property="og:image" content="" /> */}
 
         <title>Quanto dinheiro Akira先生 deve para seus alunos 👀</title>
