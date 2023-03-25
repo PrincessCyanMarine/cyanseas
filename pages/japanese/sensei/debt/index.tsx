@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 export default () => {
   const debt = (
     [
@@ -14,7 +16,29 @@ export default () => {
 
   return (
     <div>
-      <h1>Quanto o Akira先生 deve para cada um de seus alunos </h1>
+      <Head>
+        <meta
+          property="og:title"
+          content="Quanto dinheiro Akira先生 deve para seus alunos 👀"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://cyanmarine.net" />
+        <meta
+          property="og:image"
+          content="https://cyanmarine.net/assets/images/japanese/money.png"
+        />
+        <meta
+          property="og:description"
+          content="Um site que informa o quanto Akira先生 deve para seus alunos"
+        />
+        <meta property="theme-color" content="#00FFFF" />
+        <meta name="twitter:card" content="summary_large_image" />
+        {/* <meta property="og:image" content="" /> */}
+
+        <title>Quanto dinheiro Akira先生 deve para seus alunos 👀</title>
+      </Head>
+
+      <h1>Quanto o Akira先生 deve para seus alunos </h1>
 
       <div>
         {debt.map((item) => (
