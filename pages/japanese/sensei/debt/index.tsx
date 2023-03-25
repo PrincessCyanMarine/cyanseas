@@ -26,6 +26,7 @@ export default () => {
               display: "flex",
               justifyContent: "space-around",
             }}
+            key={item[0]}
           >
             <span style={{ width: "100%" }}>{item[0]}:</span>{" "}
             <span style={{ width: "100%" }}>R${item[1].toFixed(2)}</span>
