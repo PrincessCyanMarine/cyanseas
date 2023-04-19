@@ -1,0 +1,10 @@
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 10px 0;
+}
+.remove {
+  color: red;
+  cursor: pointer;
+}
