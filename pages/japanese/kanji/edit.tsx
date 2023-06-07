@@ -133,6 +133,21 @@ export default () => {
         >
           RESET
         </button>
+        <button
+          className={style.button}
+          onClick={() => {
+            if (confirm("Are you sure you want to clear the kanji list?")) {
+              setKanji([]);
+            }
+          }}
+          disabled={kanji.length == 0}
+          title={
+            "Clear the kanji list" +
+            (kanji.length == 0 ? " (list is already empty)" : "")
+          }
+        >
+          CLEAR
+        </button>
       </div>
       <div className={style.list}>
         {kanji.map((k, i) => {
