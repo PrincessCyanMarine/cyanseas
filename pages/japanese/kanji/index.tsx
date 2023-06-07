@@ -56,12 +56,13 @@ export default () => {
   const router = useRouter();
   const [showInput, setShowInput] = useState(true);
   const [showReveal, setShowReveal] = useState(true);
+  const [showNext, setShowNext] = useState(false);
 
   function save() {
     if (!loaded) return;
     localStorage.setItem(
       "kanjiConfig",
-      JSON.stringify({ mode, showInput, showReveal })
+      JSON.stringify({ mode, showInput, showReveal, showNext })
     );
     if (changedKanji(kanji))
       localStorage.setItem("kanji", JSON.stringify(kanji));
@@ -78,6 +79,7 @@ export default () => {
       setMode(parseConfig.mode);
       setShowInput(parseConfig.showInput);
       setShowReveal(parseConfig.showReveal);
+      setShowNext(parseConfig.showNext);
     }
 
     setKanji(loadKanji());
@@ -178,6 +180,11 @@ export default () => {
           REVEAL
         </button>
       )}
+      {showNext && (
+        <button className={style.input} onClick={() => selectRandom()}>
+          NEXT
+        </button>
+      )}
       <button
         className={style.input}
         onClick={() => $(`#${dialog_id}`).trigger("showModal")}
@@ -243,6 +250,16 @@ export default () => {
               onChange={(ev) => setShowReveal(ev.target.checked)}
             />{" "}
             Show "reveal" button
+          </p>
+        </label>
+        <label>
+          <p>
+            <input
+              type="checkbox"
+              checked={showNext}
+              onChange={(ev) => setShowNext(ev.target.checked)}
+            />{" "}
+            Show "next" button
           </p>
         </label>
         <p>
@@ -313,14 +330,25 @@ export default () => {
         <h1 className={style.reveal_kanji}>{selected?.kanji}</h1>
         <p className={style.reveal_readings}>{selected?.readings.join(", ")}</p>
         <p className={style.reveal_definition}>{selected?.definition}</p>
-        <button
-          onClick={() => {
-            $(`#${dialog_id_2}`).trigger("close");
-            selectRandom();
-          }}
-        >
-          NEXT
-        </button>
+        <p>
+          <button
+            onClick={() => {
+              $(`#${dialog_id_2}`).trigger("close");
+              selectRandom();
+            }}
+          >
+            NEXT
+          </button>
+        </p>
+        <p>
+          <button
+            onClick={() => {
+              $(`#${dialog_id_2}`).trigger("close");
+            }}
+          >
+            CLOSE
+          </button>
+        </p>
       </dialog>
     </div>
   );
