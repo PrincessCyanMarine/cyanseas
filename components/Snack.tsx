@@ -1,13 +1,6 @@
 // import { useEffect, useId, useState } from "react";
 // import styles from "../styles/components/alert.module.scss";
-import {
-  Alert,
-  Fade,
-  IconButton,
-  Slide,
-  Snackbar,
-  SnackbarCloseReason,
-} from "@mui/material";
+import { Alert, Fade, IconButton, Slide, Snackbar } from "@mui/material";
 import { SyntheticEvent } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 // import theme from "../src/theme";
@@ -27,10 +20,7 @@ export default ({
   closeButton,
 }: {
   open: boolean;
-  handleClose: (
-    event: Event | SyntheticEvent<any, Event>,
-    reason: SnackbarCloseReason | "button"
-  ) => void;
+  handleClose: (event: Event | SyntheticEvent<any, Event>, reason: any) => void;
   message: string;
   autoHideDuration?: number;
   key?: string;
@@ -51,13 +41,13 @@ export default ({
             size="small"
             aria-label="close"
             color="inherit"
-            onClick={(ev) => handleClose(ev, "button")}
+            onClick={(ev: any) => handleClose(ev, "button")}
           >
             <AiOutlineCloseCircle />
           </IconButton>
         ) : undefined
       }
-      TransitionComponent={(props) => (
+      TransitionComponent={(props: any) => (
         <Slide {...props} direction="down" exit />
       )}
     ></Snackbar>
