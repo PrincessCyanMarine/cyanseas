@@ -7,7 +7,13 @@ export default () => (
       <Link href="/japanese/kana/practice">
         <big>Kana practice</big>
       </Link>{" "}
-      - A minigame to help studying japanese kana
+      - A minigame to help with studying japanese kana
+    </p>
+    <p>
+      <Link href="/japanese/kanji">
+        <big>Kanji practice</big>
+      </Link>{" "}
+      - A minigame to help with studying kanji
     </p>
     {/* <p>
       <Link href="/profilepics">

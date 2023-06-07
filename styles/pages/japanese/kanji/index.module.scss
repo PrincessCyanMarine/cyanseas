@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+  // height: 90vh;
+  width: 80vw;
+}
+.kanji {
+  font-size: 5rem;
+  margin: 1rem;
+}
+.modal {
+  .button {
+    width: 100%;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.input {
+  width: 100%;
+}
