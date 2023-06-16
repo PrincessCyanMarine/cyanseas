@@ -59,17 +59,22 @@ export default () => {
   const [showNext, setShowNext] = useState(false);
   const [filtered, setFiltered] = useState(kanji);
   const [noRepeat, setNoRepeat] = useState(false);
+  const [reset, setReset] = useState(false);
 
   useEffect(() => {
     setFiltered(kanji);
-    selectRandom();
+    setReset(true);
   }, [kanji, noRepeat]);
+
+  useEffect(() => {
+    selectRandom();
+  }, [reset]);
 
   function save() {
     if (!loaded) return;
     localStorage.setItem(
       "kanjiConfig",
-      JSON.stringify({ mode, showInput, showReveal, showNext })
+      JSON.stringify({ mode, showInput, showReveal, showNext, noRepeat })
     );
     if (changedKanji(kanji))
       localStorage.setItem("kanji", JSON.stringify(kanji));
@@ -87,6 +92,7 @@ export default () => {
       setShowInput(parseConfig.showInput);
       setShowReveal(parseConfig.showReveal);
       setShowNext(parseConfig.showNext);
+      setNoRepeat(parseConfig.noRepeat);
     }
 
     setKanji(loadKanji());
@@ -95,7 +101,7 @@ export default () => {
   useEffect(() => {
     if (!loaded) return;
     save();
-  }, [mode, showInput, showReveal, kanji]);
+  }, [mode, showInput, showReveal, showNext, noRepeat, kanji]);
 
   useEffect(() => {
     if (loaded) return;
