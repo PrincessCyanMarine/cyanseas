@@ -75,7 +75,7 @@ export const DEFAULT_KANJI_LIST: Kanji[] = [
   { kanji: "空", readings: ["そら"], definition: "Sky" },
   { kanji: "多", readings: ["おお(い)"], definition: "Many, a lot" },
   { kanji: "高校", readings: ["こうこう"], definition: "High school" },
-  // { kanji: "", readings: [""], definition: "" },
+  { kanji: "言葉", readings: ["ことば"], definition: "Word" },
   // { kanji: "", readings: [""], definition: "" },
   // { kanji: "", readings: [""], definition: "" },
   // { kanji: "", readings: [""], definition: "" },
