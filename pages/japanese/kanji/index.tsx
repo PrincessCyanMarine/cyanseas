@@ -62,6 +62,7 @@ export default () => {
 
   useEffect(() => {
     setFiltered(kanji);
+    selectRandom();
   }, [kanji, noRepeat]);
 
   function save() {
