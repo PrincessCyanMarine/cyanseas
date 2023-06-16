@@ -57,6 +57,12 @@ export default () => {
   const [showInput, setShowInput] = useState(true);
   const [showReveal, setShowReveal] = useState(true);
   const [showNext, setShowNext] = useState(false);
+  const [filtered, setFiltered] = useState(kanji);
+  const [noRepeat, setNoRepeat] = useState(false);
+
+  useEffect(() => {
+    setFiltered(kanji);
+  }, [kanji, noRepeat]);
 
   function save() {
     if (!loaded) return;
@@ -119,16 +125,18 @@ export default () => {
   }
 
   function selectRandom() {
-    let randomIndex, sel, prop: string | string[];
+    let randomIndex: number, sel, prop: string | string[];
     let attempts = 0;
     do {
-      randomIndex = Math.floor(Math.random() * kanji.length);
-      sel = kanji[randomIndex];
-      prop = propFromMode(kanji[randomIndex], mode) || "";
+      randomIndex = Math.floor(Math.random() * filtered.length);
+      sel = filtered[randomIndex];
+      prop = propFromMode(filtered[randomIndex], mode) || "";
       if (Array.isArray(prop)) prop = prop.join(", ");
       attempts++;
     } while (attempts < 64 && (!sel || sel == selected || !prop.trim()));
-    setSelected(kanji[randomIndex]);
+    setSelected(filtered[randomIndex]);
+    if (noRepeat)
+      setFiltered((filtered) => filtered.filter((v, i) => i != randomIndex));
   }
 
   useEffect(() => {
@@ -155,13 +163,18 @@ export default () => {
   }
   return (
     <div className={style.container}>
-      <p className={style.kanji}>
-        {mode == MODE.KANJI
-          ? selected?.kanji
-          : mode == MODE.DEFINITION
-          ? selected?.definition
-          : selected?.readings.join(", ")}
-      </p>
+      <p>{filtered.length}</p>
+      {filtered.length == 0 ? (
+        <p>No kanji left</p>
+      ) : (
+        <p className={style.kanji}>
+          {mode == MODE.KANJI
+            ? selected?.kanji
+            : mode == MODE.DEFINITION
+            ? selected?.definition
+            : selected?.readings.join(", ")}
+        </p>
+      )}
       {mode != MODE.KANJI && showInput && (
         <input
           className={style.input}
@@ -260,6 +273,16 @@ export default () => {
               onChange={(ev) => setShowNext(ev.target.checked)}
             />{" "}
             Show "next" button
+          </p>
+        </label>
+        <label>
+          <p>
+            <input
+              type="checkbox"
+              checked={noRepeat}
+              onChange={(ev) => setNoRepeat(ev.target.checked)}
+            />{" "}
+            Don't repeat
           </p>
         </label>
         <p>
