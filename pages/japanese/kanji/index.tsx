@@ -163,7 +163,7 @@ export default () => {
   }
   return (
     <div className={style.container}>
-      <p>{filtered.length}</p>
+      {noRepeat && <p>{filtered.length}</p>}
       {filtered.length == 0 ? (
         <p>No kanji left</p>
       ) : (
