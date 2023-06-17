@@ -88,6 +88,7 @@ export default () => {
   const [filtered, setFiltered] = useState(kanji);
   const [noRepeat, setNoRepeat] = useState(false);
   const [reset, setReset] = useState(false);
+  const [onCorrectReveal, setOnCorrectReveal] = useState(true);
 
   useEffect(() => {
     setFiltered(kanji);
@@ -169,7 +170,8 @@ export default () => {
         className={style.choice}
         onClick={() => {
           if (correct) {
-            reveal();
+            if (onCorrectReveal) reveal();
+            else selectRandom();
           } else {
             let self = $(`#${thisId}`);
             console.log(self);
@@ -293,11 +295,13 @@ export default () => {
     if (answerType == MODE.READING) {
       if (selected?.readings.includes(answer)) {
         setInput("");
-        selectRandom();
+        if (onCorrectReveal) reveal();
+        else selectRandom();
       }
     } else if (answer == stringProp(selected, answerType).toLowerCase()) {
       setInput("");
-      selectRandom();
+      if (onCorrectReveal) reveal();
+      else selectRandom();
     }
   }
 
@@ -498,6 +502,16 @@ export default () => {
             Don't repeat
           </p>
         </label>
+        <h3>On correct</h3>
+        <p>
+          <button
+            onClick={(ev) =>
+              setOnCorrectReveal((onConnectReveal) => !onConnectReveal)
+            }
+          >
+            {onCorrectReveal ? "Reveal" : "Next"}
+          </button>
+        </p>
         <p>
           <button
             onClick={() => {

@@ -7,7 +7,7 @@ export const DEFAULT_KANJI_LIST: Kanji[] = [
   // { kanji: "気", readings: ["き"], definition: "" },
   { kanji: "日曜日", readings: ["にちようび"], definition: "Sunday" },
   { kanji: "本", readings: ["ほん"], definition: "Book" },
-  { kanji: "人", readings: ["じん", "にん", "ひと"], definition: "Person" },
+  { kanji: "人", readings: ["ひと"], definition: "Person" },
   { kanji: "火", readings: ["ひ"], definition: "Fire" },
   { kanji: "火曜日", readings: ["かようび"], definition: "Tuesday (terça)" },
   { kanji: "水", readings: ["みず"], definition: "Water" },
