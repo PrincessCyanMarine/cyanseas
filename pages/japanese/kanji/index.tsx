@@ -320,17 +320,23 @@ export default () => {
       {inputElement[inputType]()}
       {noRepeat && <p>{filtered.length}</p>}
       {showReveal && (
-        <button className={style.input} onClick={() => reveal()}>
+        <button
+          className={`${style.input} ${style.buttons}`}
+          onClick={() => reveal()}
+        >
           REVEAL
         </button>
       )}
       {showNext && (
-        <button className={style.input} onClick={() => selectRandom()}>
+        <button
+          className={`${style.input} ${style.buttons}`}
+          onClick={() => selectRandom()}
+        >
           NEXT
         </button>
       )}
       <button
-        className={style.input}
+        className={`${style.input} ${style.buttons}`}
         onClick={() => $(`#${dialog_id}`).trigger("showModal")}
       >
         CONFIG
@@ -420,7 +426,7 @@ export default () => {
           </form>
         </div>
         <div>
-          <h3>input type</h3>
+          <h3>Input type</h3>
           <form
             onChange={(ev) => {
               // @ts-ignore
@@ -461,6 +467,7 @@ export default () => {
           </form>
         </div>
 
+        <h3>Others</h3>
         <label>
           <p>
             <input
@@ -496,7 +503,7 @@ export default () => {
             onClick={() => {
               importFile();
             }}
-            className={style.button}
+            className={`${style.button} ${style.buttons}`}
             title="Import kanji list from file"
           >
             <p>IMPORT</p>
@@ -507,7 +514,7 @@ export default () => {
             onClick={() => {
               exportFile();
             }}
-            className={style.button}
+            className={`${style.button} ${style.buttons}`}
             disabled={!changedKanji(kanji)}
             title={
               "Export kanji list to file" +
@@ -527,7 +534,7 @@ export default () => {
                 selectRandom();
               }
             }}
-            className={style.button}
+            className={`${style.button} ${style.buttons}`}
             disabled={!changedKanji(kanji)}
             title={
               "Reset to default kanji list" +
@@ -539,7 +546,10 @@ export default () => {
         </p>
         <p>
           <Link href="./kanji/edit">
-            <button className={style.button} title="Edit kanji list">
+            <button
+              className={`${style.button} ${style.buttons}`}
+              title="Edit kanji list"
+            >
               <p>EDIT</p>
             </button>
           </Link>
@@ -548,7 +558,7 @@ export default () => {
         <p>
           <button
             onClick={() => $(`#${dialog_id}`).trigger("close")}
-            className={style.button}
+            className={`${style.button} ${style.buttons}`}
             title="Close menu"
           >
             <p>CLOSE</p>
@@ -561,6 +571,7 @@ export default () => {
         <p className={style.reveal_definition}>{selected?.definition}</p>
         <p>
           <button
+            className={style.buttons}
             onClick={() => {
               $(`#${dialog_id_2}`).trigger("close");
               selectRandom();
@@ -571,6 +582,7 @@ export default () => {
         </p>
         <p>
           <button
+            className={style.buttons}
             onClick={() => {
               $(`#${dialog_id_2}`).trigger("close");
             }}
