@@ -37,6 +37,32 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router.asPath]);
 
+  const onDialogClick = (ev: MouseEvent) => {
+    let el = ev.target as HTMLDialogElement;
+    console.log(el.classList);
+    const dialogDimensions = el.getBoundingClientRect();
+    if (
+      ev.clientX < dialogDimensions.left ||
+      ev.clientX > dialogDimensions.right ||
+      ev.clientY < dialogDimensions.top ||
+      ev.clientY > dialogDimensions.bottom
+    )
+      el.close();
+  };
+
+  useEffect(() => {
+    let dialog = $("dialog").not(".no-close");
+    dialog.each((i, el) => {
+      el.addEventListener("mousedown", onDialogClick);
+    });
+    return () => {
+      let dialog = $("dialog").not(".no-close");
+      dialog.each((i, el) => {
+        el.removeEventListener("mousedown", onDialogClick);
+      });
+    };
+  }, [router.asPath]);
+
   return (
     <div>
       <Head>

@@ -85,6 +85,21 @@
   }
 }
 
+.close {
+  display: flex;
+  background-color: red;
+  position: fixed;
+  top: 1em;
+  width: 2.5em;
+  height: 2.5em;
+  right: 1em;
+  padding: 10px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
 .buttons {
   // background-color: #060619;
   // border: 0.25em black solid;

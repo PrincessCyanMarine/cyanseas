@@ -177,7 +177,7 @@ export default () => {
       {editting > -1 && (
         <dialog
           id={modalId}
-          className={style.modal}
+          className={`.no-close`}
           onClick={(ev) => {
             let dimensions = ev.currentTarget.getBoundingClientRect();
             if (

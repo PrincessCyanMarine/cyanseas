@@ -199,6 +199,7 @@ export default () => {
         showReveal,
         showNext,
         noRepeat,
+        onCorrectReveal,
       })
     );
     if (changedKanji(kanji))
@@ -219,6 +220,7 @@ export default () => {
       setShowReveal(parseConfig.showReveal);
       setShowNext(parseConfig.showNext);
       setNoRepeat(parseConfig.noRepeat);
+      setOnCorrectReveal(parseConfig.onCorrectReveal);
     }
 
     setKanji(loadKanji());
@@ -578,6 +580,15 @@ export default () => {
             <p>CLOSE</p>
           </button>
         </p>
+        <div
+          className={style.close}
+          onClick={() => {
+            $(`#${dialog_id}`).trigger("close");
+            console.log("close");
+          }}
+        >
+          X
+        </div>
       </dialog>
       <dialog className={style.modal} id={dialog_id_2}>
         <h1 className={style.reveal_kanji}>{selected?.kanji}</h1>
