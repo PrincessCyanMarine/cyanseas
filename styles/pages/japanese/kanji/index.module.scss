@@ -32,7 +32,7 @@
 .choices {
   display: grid;
   width: 100%;
-  gap: 2em;
+  gap: 1em;
   margin-bottom: 10px;
 
   align-items: center;
@@ -42,7 +42,9 @@
 
 .choice {
   aspect-ratio: 3/1;
-  width: 300px;
+  width: 280px;
+  max-height: 10vh;
+  max-width: 90vw;
   height: auto;
   background-color: #060619;
   border: 0.25em black solid;
@@ -56,7 +58,7 @@
 
   &:hover {
     background-color: #09092e;
-    transform: scale(1.1);
+    transform: scale(1.05);
     // box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.5);
   }
 }
@@ -64,7 +66,7 @@
 .wrong {
   transition: all 0.5s ease-in-out;
   color: #cdcdcd;
-  background-color: rgb(195, 1, 1);
+  background-color: rgb(195, 1, 1) !important;
 }
 
 .shake {
