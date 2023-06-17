@@ -33,6 +33,7 @@
   display: grid;
   width: 100%;
   gap: 2em;
+  margin-bottom: 10px;
 
   align-items: center;
   justify-items: center;
@@ -64,7 +65,6 @@
   transition: all 0.5s ease-in-out;
   color: #cdcdcd;
   background-color: rgb(195, 1, 1);
-  border-color: #222;
 }
 
 .shake {
