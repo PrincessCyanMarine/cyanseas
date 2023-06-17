@@ -24,3 +24,54 @@
 .input {
   width: 100%;
 }
+.reveal_kanji {
+  font-size: 5rem;
+  margin: 1rem;
+}
+
+.choices {
+  display: grid;
+  width: 100%;
+  gap: 2em;
+
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.choice {
+  aspect-ratio: 3/1;
+  width: 300px;
+  height: auto;
+  background-color: #060619;
+  border: 0.25em black solid;
+  border-radius: 4px;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.wrong {
+  transition: all 0.5s ease-in-out;
+  color: #cdcdcd;
+  background-color: rgb(195, 1, 1);
+  border-color: #222;
+}
+
+.shake {
+  animation: shake 0.2s linear 5;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(5px);
+  }
+}

@@ -25,6 +25,13 @@ function modeFromText(text: "reading" | "definition" | "kanji") {
   }
 }
 
+function stringProp(kanji: Kanji, mode: MODE) {
+  let a = propFromMode(kanji, mode);
+  if (Array.isArray(a)) a = a[Math.floor(Math.random() * a.length)];
+  if (!a) a = "undefined";
+  return a;
+}
+
 function propFromMode(kanji: Kanji, mode: MODE) {
   switch (mode) {
     case MODE.READING:
@@ -38,23 +45,44 @@ function propFromMode(kanji: Kanji, mode: MODE) {
   }
 }
 
+function inputTypeFromString(text: string) {
+  if (!text || !text.trim()) return INPUT_TYPE.MULTIPLE_CHOICES;
+  switch (text.toUpperCase()) {
+    case "TEXT":
+      return INPUT_TYPE.TEXT;
+    case "NONE":
+      return INPUT_TYPE.NONE;
+    default:
+      return INPUT_TYPE.MULTIPLE_CHOICES;
+  }
+}
+
 enum MODE {
   KANJI,
   DEFINITION,
   READING,
 }
 
+enum INPUT_TYPE {
+  TEXT,
+  MULTIPLE_CHOICES,
+  NONE,
+}
+
 export default () => {
   const [selected, setSelected] = useState<Kanji | undefined>();
   const [input, setInput] = useState<string>("");
   const [mode, setMode] = useState<MODE>(MODE.KANJI);
+  const [answerType, setAnswerType] = useState<MODE>(MODE.READING);
   const input_id = useId().replace(/:/g, "");
   const dialog_id = useId().replace(/:/g, "");
   const dialog_id_2 = useId().replace(/:/g, "");
   const [loaded, setLoaded] = useState(false);
   const [kanji, setKanji] = useState<Kanji[]>(DEFAULT_KANJI_LIST);
   const router = useRouter();
-  const [showInput, setShowInput] = useState(true);
+  const [inputType, setInputType] = useState<INPUT_TYPE>(
+    INPUT_TYPE.MULTIPLE_CHOICES
+  );
   const [showReveal, setShowReveal] = useState(true);
   const [showNext, setShowNext] = useState(false);
   const [filtered, setFiltered] = useState(kanji);
@@ -70,11 +98,106 @@ export default () => {
     selectRandom();
   }, [reset]);
 
+  const inputElement = {
+    [INPUT_TYPE.TEXT]: () => {
+      return (
+        <input
+          className={style.input}
+          id={input_id}
+          value={input}
+          onChange={(ev) => {
+            setInput(ev.target.value);
+          }}
+          onKeyDown={(ev) => {
+            if (ev.key == "Enter") testInput();
+          }}
+        />
+      );
+    },
+    [INPUT_TYPE.MULTIPLE_CHOICES]: () => {
+      if (!selected) return <span></span>;
+      let choices = [undefined, undefined, undefined, undefined] as [
+        JSX.Element?,
+        JSX.Element?,
+        JSX.Element?,
+        JSX.Element?
+      ];
+      let correct = Math.floor(Math.random() * 4);
+
+      choices[correct] = multipleChoiceElem(
+        stringProp(selected, answerType),
+        true,
+        correct
+      );
+
+      for (let i = 0; i < 4; i++) {
+        if (i == correct) continue;
+        let prop: string,
+          attempts = 0;
+        do {
+          let randomIndex = Math.floor(Math.random() * kanji.length);
+          prop = stringProp(kanji[randomIndex], answerType);
+          attempts++;
+        } while (
+          attempts < 64 &&
+          (selected.readings.includes(prop) ||
+            prop == stringProp(selected, answerType))
+        );
+        choices[i] = multipleChoiceElem(prop, false, i);
+      }
+
+      return (
+        <div className={style.choices}>
+          {choices.map((choice, i) => {
+            return <div key={i}>{choice}</div>;
+          })}
+        </div>
+      );
+    },
+
+    [INPUT_TYPE.NONE]: () => {
+      return <span></span>;
+    },
+  };
+
+  let choiceId = useId().replace(/:/g, "");
+  function multipleChoiceElem(prop: string, correct: boolean, index: number) {
+    let thisId = choiceId + index;
+    return (
+      <div
+        id={thisId}
+        className={style.choice}
+        onClick={() => {
+          if (correct) {
+            reveal();
+          } else {
+            let self = $(`#${thisId}`);
+            console.log(self);
+            self.addClass(style.wrong);
+            self.addClass(style.shake);
+            setTimeout(() => {
+              self.removeClass(style.shake);
+            }, 1000);
+          }
+        }}
+      >
+        {prop}
+      </div>
+    );
+  }
+
   function save() {
     if (!loaded) return;
     localStorage.setItem(
       "kanjiConfig",
-      JSON.stringify({ mode, showInput, showReveal, showNext, noRepeat })
+      JSON.stringify({
+        mode,
+        inputType,
+        answerType,
+        showReveal,
+        showNext,
+        noRepeat,
+      })
     );
     if (changedKanji(kanji))
       localStorage.setItem("kanji", JSON.stringify(kanji));
@@ -89,7 +212,8 @@ export default () => {
       let parseConfig = JSON.parse(savedConfig);
       console.log(parseConfig);
       setMode(parseConfig.mode);
-      setShowInput(parseConfig.showInput);
+      setInputType(parseConfig.inputType);
+      setAnswerType(parseConfig.answerType);
       setShowReveal(parseConfig.showReveal);
       setShowNext(parseConfig.showNext);
       setNoRepeat(parseConfig.noRepeat);
@@ -101,7 +225,7 @@ export default () => {
   useEffect(() => {
     if (!loaded) return;
     save();
-  }, [mode, showInput, showReveal, showNext, noRepeat, kanji]);
+  });
 
   useEffect(() => {
     if (loaded) return;
@@ -132,6 +256,11 @@ export default () => {
   }
 
   function selectRandom() {
+    if (inputType == INPUT_TYPE.MULTIPLE_CHOICES) {
+      for (let i = 0; i < 4; i++) {
+        $(`#${choiceId + i}`).removeClass(style.wrong);
+      }
+    }
     let randomIndex: number, sel, prop: string | string[];
     let attempts = 0;
     do {
@@ -159,7 +288,14 @@ export default () => {
   }, [input]);
 
   function testInput() {
-    if (input.trim() == selected?.kanji) {
+    if (!selected) return;
+    let answer = input.trim().toLowerCase();
+    if (answerType == MODE.READING) {
+      if (selected?.readings.includes(answer)) {
+        setInput("");
+        selectRandom();
+      }
+    } else if (answer == stringProp(selected, answerType).toLowerCase()) {
       setInput("");
       selectRandom();
     }
@@ -170,7 +306,6 @@ export default () => {
   }
   return (
     <div className={style.container}>
-      {noRepeat && <p>{filtered.length}</p>}
       {filtered.length == 0 ? (
         <p>No kanji left</p>
       ) : (
@@ -182,19 +317,8 @@ export default () => {
             : selected?.readings.join(", ")}
         </p>
       )}
-      {mode != MODE.KANJI && showInput && (
-        <input
-          className={style.input}
-          id={input_id}
-          value={input}
-          onChange={(ev) => {
-            setInput(ev.target.value);
-          }}
-          onKeyDown={(ev) => {
-            if (ev.key == "Enter") testInput();
-          }}
-        />
-      )}
+      {inputElement[inputType]()}
+      {noRepeat && <p>{filtered.length}</p>}
       {showReveal && (
         <button className={style.input} onClick={() => reveal()}>
           REVEAL
@@ -212,56 +336,131 @@ export default () => {
         CONFIG
       </button>
       <dialog id={dialog_id} className={style.modal}>
-        <p>Mode</p>
-        <form
-          onChange={(ev) => {
-            // @ts-ignore
-            setMode(modeFromText(ev.target.value));
-            selectRandom();
-          }}
-          className={style.form}
-        >
-          <label>
-            <input
-              checked={mode == MODE.KANJI}
-              type="radio"
-              radioGroup="mode"
-              name="mode"
-              value="kanji"
-            />{" "}
-            KANJI
-          </label>
-          <label>
-            <input
-              checked={mode == MODE.DEFINITION}
-              type="radio"
-              radioGroup="mode"
-              name="mode"
-              value="definition"
-            />{" "}
-            DEFINITION
-          </label>
-          <label>
-            <input
-              checked={mode == MODE.READING}
-              type="radio"
-              radioGroup="mode"
-              name="mode"
-              value="reading"
-            />{" "}
-            READING
-          </label>
-        </form>
-        <label>
-          <p>
-            <input
-              type="checkbox"
-              checked={showInput}
-              onChange={(ev) => setShowInput(ev.target.checked)}
-            />{" "}
-            Show kanji input
-          </p>
-        </label>
+        <div>
+          <h3>Mode</h3>
+          <form
+            onChange={(ev) => {
+              // @ts-ignore
+              setMode(modeFromText(ev.target.value));
+              selectRandom();
+            }}
+            className={style.form}
+          >
+            <label>
+              <input
+                checked={mode == MODE.KANJI}
+                type="radio"
+                radioGroup="mode"
+                name="mode"
+                value="kanji"
+              />{" "}
+              KANJI
+            </label>
+            <label>
+              <input
+                checked={mode == MODE.DEFINITION}
+                type="radio"
+                radioGroup="mode"
+                name="mode"
+                value="definition"
+              />{" "}
+              DEFINITION
+            </label>
+            <label>
+              <input
+                checked={mode == MODE.READING}
+                type="radio"
+                radioGroup="mode"
+                name="mode"
+                value="reading"
+              />{" "}
+              READING
+            </label>
+          </form>
+        </div>
+        <div>
+          <h3>Answer type</h3>
+          <form
+            onChange={(ev) => {
+              // @ts-ignore
+              setAnswerType(modeFromText(ev.target.value));
+            }}
+            className={style.form}
+          >
+            <label>
+              <input
+                checked={answerType == MODE.KANJI}
+                type="radio"
+                radioGroup="answerType"
+                name="answerType"
+                value="kanji"
+              />{" "}
+              KANJI
+            </label>
+            <label>
+              <input
+                checked={answerType == MODE.DEFINITION}
+                type="radio"
+                radioGroup="answerType"
+                name="answerType"
+                value="definition"
+              />{" "}
+              DEFINITION
+            </label>
+            <label>
+              <input
+                checked={answerType == MODE.READING}
+                type="radio"
+                radioGroup="answerType"
+                name="answerType"
+                value="reading"
+              />{" "}
+              READING
+            </label>
+          </form>
+        </div>
+        <div>
+          <h3>input type</h3>
+          <form
+            onChange={(ev) => {
+              // @ts-ignore
+              setInputType(inputTypeFromString(ev.target.value));
+            }}
+            className={style.form}
+          >
+            <label>
+              <input
+                checked={inputType == INPUT_TYPE.TEXT}
+                type="radio"
+                radioGroup="inputType"
+                name="inputType"
+                value="TEXT"
+              />{" "}
+              TEXT
+            </label>
+            <label>
+              <input
+                checked={inputType == INPUT_TYPE.MULTIPLE_CHOICES}
+                type="radio"
+                radioGroup="inputType"
+                name="inputType"
+                value="MULTIPLE_CHOICES"
+              />{" "}
+              MULTIPLE_CHOICES
+            </label>
+            <label>
+              <input
+                checked={inputType == INPUT_TYPE.NONE}
+                type="radio"
+                radioGroup="inputType"
+                name="inputType"
+                value="NONE"
+              />{" "}
+              NONE
+            </label>
+          </form>
+        </div>
+
         <label>
           <p>
             <input
