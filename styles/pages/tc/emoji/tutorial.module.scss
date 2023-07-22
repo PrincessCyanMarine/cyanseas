@@ -1,0 +1,20 @@
+.main {
+  background-color: #313338;
+  width: 100%;
+  height: 100%;
+  font-family: "Open Sans", sans-serif;
+  color: rgb(219, 222, 225);
+  span {
+    height: 100%;
+    vertical-align: text-top;
+  }
+}
+
+.image {
+  height: 1em !important;
+  img {
+    vertical-align: middle;
+    width: auto;
+    height: 1em;
+  }
+}
