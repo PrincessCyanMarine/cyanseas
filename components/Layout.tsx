@@ -14,6 +14,7 @@ export default ({ children }: { children: any }) => (
             <small>external</small>
           </Link>
           <Link href="/pages">Pages</Link>
+          <Link href="/links">Links</Link>
         </div>
       </div>
     </div>

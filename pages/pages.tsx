@@ -4,6 +4,12 @@ export default () => (
   <div>
     <h1>Pages</h1>
     <p>
+      <Link href="/links">
+        <big>Links</big>
+      </Link>{" "}
+      - Links to my social media and other stuff (not a lot to see tbh)
+    </p>
+    <p>
       <Link href="/japanese/kana/practice">
         <big>Kana practice</big>
       </Link>{" "}
