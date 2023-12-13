@@ -29,9 +29,9 @@ $gradient: var(--gradient);
 
   span {
     background: $gradient;
-    background-repeat-y: no-repeat;
-    background-size: calc(2em + 100%) 0.1em;
-    background-position: -1em 100%;
+    background-repeat: no-repeat;
+    background-size: calc(2em + 100%) 0.1em !important;
+    background-position: -1em 100% !important;
     // transition: background-size 0.5s ease 0.2s;
   }
 
