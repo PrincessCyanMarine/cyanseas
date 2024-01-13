@@ -13,8 +13,8 @@ export default ({ children }: { children: any }) => (
             Github
             <small>external</small>
           </Link>
-          {/*<Link href="/pages">Pages</Link>*/}
-          <Link href="/links">Links</Link>
+          <Link href="/pages">Pages</Link>
+          {/*<Link href="/links">Links</Link>*/}
         </div>
       </div>
     </div>
