@@ -21,6 +21,12 @@ export default () => (
       </Link>{" "}
       - A minigame to help with studying kanji
     </p>
+    <p>
+      <Link href="/daggerheart">
+        <big>Daggerheart Tracker</big>
+      </Link>{" "}
+      - A simple health and stress tracker for Daggerheart
+    </p>
     {/* <p>
       <Link href="/profilepics">
         <big>Profile pics</big>
