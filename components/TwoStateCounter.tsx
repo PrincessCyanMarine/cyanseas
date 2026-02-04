@@ -1,5 +1,4 @@
 import { useEffect, useId, useState } from "react";
-import styles from "../styles/components/TwoStateCounter.module.scss";
 
 const TwoStateCounter = ({ filledString, emptyString, defaultMax, defaultValue, maxMax, storageKey }: {
     filledString: string,
